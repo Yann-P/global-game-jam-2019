@@ -12,5 +12,5 @@ export default {
 	localStorageName: 'phaseres6webpack',
 	webfonts: ['Bangers'],
 	scene: [ BootScene, SplashScene, GameScene ],
-	backgroundColor: '0xffffff'
+	backgroundColor: '#ffffff'
 }
