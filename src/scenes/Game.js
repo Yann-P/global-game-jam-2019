@@ -1,6 +1,5 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
 import lang from '../lang'
 import config from '../config'
 import TextButton from '../widgets/TextButton'
