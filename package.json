@@ -8,7 +8,8 @@
         "dev": "webpack",
         "deploy": "webpack --config webpack.production.config.js",
         "cordova": "webpack --config webpack.cordova.config.js",
-        "test": "eslint './src/**/*.js'"
+        "lint": "eslint \"./src/**/*.js\"",
+        "fix-lint": "eslint \"./src/**/*.js\" --fix"
     },
     "license": "MIT",
     "devDependencies": {
@@ -22,10 +23,10 @@
         "clean-webpack-plugin": "^0.1.18",
         "copy-webpack-plugin": "^4.4.1",
         "cordova": "^8.0.0",
-        "eslint": "^4.17.0",
-        "eslint-config-standard": "^10.2.1",
+        "eslint": "^5.2.0",
+        "eslint-config-standard": "^11.0.0",
         "eslint-plugin-import": "^2.8.0",
-        "eslint-plugin-node": "^6.0.0",
+        "eslint-plugin-node": "^7.0.1",
         "eslint-plugin-promise": "^3.6.0",
         "eslint-plugin-standard": "^3.0.1",
         "expose-loader": "^0.7.4",
@@ -38,7 +39,9 @@
         "cordova-ios": "^4.5.4",
         "cordova-plugin-whitelist": "^1.3.3",
         "idiom.js": "^1.0.0",
-        "phaser-ce": "^2.10.0",
+        "phaser": "^3.10.1",
+        "vue": "^2.5.16",
+        "vuex": "^3.0.1",
         "webfontloader": "^1.6.28"
     },
     "cordova": {

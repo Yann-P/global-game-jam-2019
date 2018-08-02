@@ -1,20 +1,23 @@
 {
-  "parser": "babel-eslint",
-  "extends": "standard",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  },
-  "env": {
-    "browser": true
-  },
-  "rules": {
-    "import/no-unresolved": [2]
-  },
-  "globals": {
-    "phaser": true
-  },
-  "settings": {
-    "import/core-modules": ["phaser", "pixi", "p2"]
-  }
+	"parser": "babel-eslint",
+	"extends": "standard",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"env": {
+		"browser": true
+	},
+	"rules": {
+		"import/no-unresolved": [2],
+		"no-tabs": 0,
+		"indent": ["error", "tab"],
+		"no-trailing-spaces": ["error", { "skipBlankLines": true }]
+	},
+	"globals": {
+		"phaser": true
+	},
+	"settings": {
+		"import/core-modules": ["phaser", "pixi", "p2"]
+	}
 }
