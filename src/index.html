@@ -2,27 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Phaser - ES6 - Webpack</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta http-equiv="cleartype" content="on">
-    <meta name="format-detection" content="telephone=no">
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>Phaser - ES6 - Webpack</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta http-equiv="cleartype" content="on">
+	<meta name="format-detection" content="telephone=no">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+		
+		html,
+		body {
+			background: #000;
+		}
+		
+		#content {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 </head>
 
 <body>
-
-    <div id="content"></div>
-    <!-- uncomment the line bellow for cordova feature -->
-    <!-- <script type="text/javascript" src="cordova.js"></script> -->
+	<div id="content"></div>
+	<!-- uncomment the line bellow for cordova feature -->
+	<script type="text/javascript" src="cordova.js"></script>
 </body>
 
 </html>
