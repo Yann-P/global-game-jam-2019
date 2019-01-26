@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+const JAR_GEOMETRY = '0 0 0 400 400 400 400 0 350 0 350 350 50 350 50 0';
+
 export default class CollectionJar extends Phaser.GameObjects.Container {
 	constructor (options) {
 		super(options.scene, 0, 0)
@@ -12,14 +14,18 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.jarContainer = new Phaser.GameObjects.Container(this.scene, 0, 0)
 		this.add(this.jarContainer)
 		
-		this.backgroundImage = new Phaser.GameObjects.Sprite(this.scene, '', 0, 0)
+		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, -50, 'jar')
 		this.jarContainer.add(this.backgroundImage)
-		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, '0 0 0 350 400 350 400 0 350 0 350 300 50 300 50 0', 0x00ffff)
+
+		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, -50, 'jar-overlay')
+		this.jarContainer.add(this.backgroundImageOverlay)
+
+		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY); //, 0x00ffff)
 		
 		this.scene.matter.add.gameObject(this.jarBody, {
 			shape: {
 				type: 'fromVerts',
-				verts: '0 0 0 350 400 350 400 0 350 0 350 300 50 300 50 0',
+				verts: JAR_GEOMETRY,
 				flagInternal: true,
 			},
 			isStatic: true
@@ -51,7 +57,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.targetPosition = targetPosition
 	}
 	
-	update () {
+	update (t, dt) {
 		const difference = Math.max(Math.min(this.targetPosition - this.jarContainer.x, 30), -30)
 		
 		const previousPosition = this.jarContainer.x
@@ -73,8 +79,10 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		}
 		
 		for (let gameObject of this.memories.list) {
-			gameObject.update(0, 0, Math.abs(previousPosition - this.jarContainer.x) < 0.1 ? 0 : difference)
+			gameObject.update(t, dt, Math.abs(previousPosition - this.jarContainer.x) < 0.1 ? 0 : difference)
 		}
+
+		this.backgroundImageOverlay.alpha = Math.sin((t / 1000) / 2 + .5) / 2;
 	}
 	
 	updateCollisionShape() {

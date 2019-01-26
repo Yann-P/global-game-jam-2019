@@ -24,7 +24,6 @@ export default {
 			gravity: {
 				y: 0
 			},
-			debug: true,
 			setBounds: {
 				x: -spacing,
 				y: -offscreenSize,

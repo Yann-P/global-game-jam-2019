@@ -29,6 +29,9 @@ export default class extends Phaser.Scene {
 
 		this.load.image('background', './assets/images/background.jpg')
 		this.load.image('pause', './assets/images/pause.png')
+		this.load.image('jar', './assets/images/jar.png')
+		this.load.image('jar-overlay', './assets/images/jar-overlay.png')
+
 
 		for(let i = 1; i <= 5; i++)	this.load.image('l'+i, './assets/images/l'+i+'.png')
 
