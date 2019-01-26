@@ -1,18 +1,17 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import lang from '../lang'
-import config from '../config'
-import TextButton from '../widgets/TextButton'
 import CollectionJar from '../widgets/CollectionJar'
 import store from '../store'
+import config from '../config'
 import { CollectableContainer } from '../widgets/CollectableContainer';
-import { Memory } from '../widgets/Collectable';
+import PauseButton from '../widgets/PauseButton';
 
 export default class extends Phaser.Scene {
 	constructor () {
 		super({
 			key: 'Game'
 		})
+		this._paused = false;
 	}
 	
 	initialize () {
@@ -23,7 +22,12 @@ export default class extends Phaser.Scene {
 	
 	create () {
 
+		//this._addLevelNumberBadge(); // TODO IMPLEMENT
+		this._addPauseButton();
+		//this._addProgressBar();  // TODO IMPLEMENT
+
 		this.matter.world.setBounds();
+		
 
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
@@ -31,24 +35,6 @@ export default class extends Phaser.Scene {
 		for (let i = 0 ; i < 100; i++) {
 			this.collectableContainer.makeMemory({x: Math.random() * 100, y: Math.random() * 100});
 		}
-
-		const button = new TextButton({
-			scene: this,
-			text: 'Click Me!',
-			style: {
-				fontFamily: 'Bangers',
-				fontSize: 100,
-				color: '#ff0000'
-			},
-			x: this.sys.canvas.width / 2,
-			y: this.sys.canvas.height / 2,
-			width: 500,
-			height: 200,
-			onDown: () => {
-				store.dispatch('ressources/add', 100)
-			}
-		})
-		this.add.existing(button)
 		
 		const scoreText = new Phaser.GameObjects.Text(this, 0, 0, store.state.ressources.coins, {
 			fontSize: 100,
@@ -56,15 +42,6 @@ export default class extends Phaser.Scene {
 			fontFamily: 'Bangers'
 		})
 		this.add.existing(scoreText)
-		
-		store.watch(
-			(state) => {
-				return state.ressources.coins
-			},
-			(newValue) => {
-				scoreText.setText(newValue)
-			}
-		)
 		
 		this.collectionJar = new CollectionJar({
 			scene: this,
@@ -87,4 +64,16 @@ export default class extends Phaser.Scene {
 		this.collectableContainer.update();
 		this.collectionJar.update()
 	}
+
+	_addPauseButton() {
+		const pauseButton = new PauseButton({ scene: this, x: config.width - 50, y: 50})
+	  this.add.existing(pauseButton);
+		pauseButton.on('pointerup', this._pause.bind(this));
+	}
+
+	_pause() {
+		this.scene.pause();
+		this.scene.launch('PauseOverlay');
+	}
+
 }
