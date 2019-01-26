@@ -293,5 +293,6 @@ export default {
 				"radius": 50
 			}
 		]
-	}
+	},
+	maxDoubleTapDelay: 200
 };
