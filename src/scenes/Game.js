@@ -4,6 +4,8 @@ import lang from '../lang'
 import config from '../config'
 import TextButton from '../widgets/TextButton'
 import store from '../store'
+import { CollectableContainer } from '../widgets/CollectableContainer';
+import { Memory } from '../widgets/Collectable';
 
 export default class extends Phaser.Scene {
 	constructor () {
@@ -19,6 +21,11 @@ export default class extends Phaser.Scene {
 	}
 	
 	create () {
+
+		this.collectableContainer = new CollectableContainer({ scene: this });
+		this.add.existing(this.collectableContainer);
+		this.collectableContainer.makeMemory({x: 100, y: 100});
+
 		const button = new TextButton({
 			scene: this,
 			text: 'Click Me!',
@@ -55,5 +62,6 @@ export default class extends Phaser.Scene {
 	}
 	
 	update () {
+		this.collectableContainer.update();
 	}
 }

@@ -24,6 +24,8 @@ export default class extends Phaser.Scene {
 		
 		let text = this.add.text(config.width / 2, config.height / 2, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
 		text.setOrigin(0.5, 0.5)
+
+		this._makeMemoryTexture();
 		
 		this.load.image('loaderBg', './assets/images/loader-bg.png')
 		this.load.image('loaderBar', './assets/images/loader-bar.png')
@@ -40,5 +42,12 @@ export default class extends Phaser.Scene {
 	
 	fontsLoaded () {
 		this.fontsReady = true
+	}
+
+	_makeMemoryTexture () {
+		const placeholder = this.make.graphics({x: 0, y: 0, add: false});
+		placeholder.fillStyle(0xff00ff);
+		placeholder.fillCircle(50, 50, 50);
+		placeholder.generateTexture('memory', 100, 100);
 	}
 }
