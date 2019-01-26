@@ -9,8 +9,8 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	}
 
 
-	makeMemory({ x, y }) {
-		const memory = new Memory({ scene: this._scene, x, y });
+	makeMemory({ x, y, fallSpeed, radius }) {
+		const memory = new Memory({ scene: this._scene, x, y, fallSpeed, radius });
 		this._addChild(memory);
 	}
 

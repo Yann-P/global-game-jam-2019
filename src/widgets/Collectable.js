@@ -2,12 +2,12 @@ import Phaser from "phaser";
 import config from '../config'
 
 export class Collectable extends Phaser.Physics.Matter.Sprite {
-  constructor ({ scene, x, y, key, radius = 50, fallSpeed = 10 }) {
+  constructor ({ scene, x, y, key, radius, fallSpeed }) {
 		super(scene.matter.world, x, y, key, null, { 
 			restitution: 0,
 			shape: {
 				type: 'circle',
-				radius
+				radius: 50
 			} 
 		})
 		this._radius = radius;
@@ -17,10 +17,12 @@ export class Collectable extends Phaser.Physics.Matter.Sprite {
 		this.setBounce(0)
 		this.setFrictionAir(0)
 		this.setFriction(0)
+		this.destroyed = false
+		this.setScale(radius / 100)
 	}
 
 	get collision() {
-		return new Phaser.Geom.Circle(this.x, this.y, 100);
+		return new Phaser.Geom.Point(this.x, this.y);
 	}
 	
 	collect() {
@@ -29,9 +31,12 @@ export class Collectable extends Phaser.Physics.Matter.Sprite {
 	}
 
 	update() {
-		this.setVelocity(0, this._fallSpeed)
-		if (this.y > config.height + config.physicsSpacing / 2) {
-			this.destroy()
+		if (!this.destroyed) {
+			this.setVelocity(0, this._fallSpeed)
+			if (this.y > config.height + config.physicsSpacing / 2) {
+				this.destroyed = true
+				this.destroy()
+			}
 		}
 	}
 }
