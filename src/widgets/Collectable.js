@@ -18,7 +18,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite {
 		this.setFrictionAir(0)
 		this.setFriction(0)
 		this.destroyed = false
-		this.setScale(radius / 100)
+		this.setScale(radius / 50)
 	}
 
 	get collision() {
