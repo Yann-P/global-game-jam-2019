@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import lang from '../lang'
 import config from '../config'
 import TextButton from '../widgets/TextButton'
+import CollectionJar from '../widgets/CollectionJar'
 import store from '../store'
 
 export default class extends Phaser.Scene {
@@ -52,8 +53,24 @@ export default class extends Phaser.Scene {
 				scoreText.setText(newValue)
 			}
 		)
+		
+		this.collectionJar = new CollectionJar({
+			scene: this
+		})
+		this.collectionJar.setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
+		this.collectionJar.updatePosition()
+		
+		this.add.existing(this.collectionJar)
+		
+		this.input.on('pointermove', this.onPointerEvent.bind(this))
+		this.input.on('pointerdown', this.onPointerEvent.bind(this))
+	}
+	
+	onPointerEvent (pointer) {
+		this.collectionJar.setTargetPosition(pointer.x)
 	}
 	
 	update () {
+		this.collectionJar.update()
 	}
 }
