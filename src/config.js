@@ -3,6 +3,8 @@ import Phaser from "phaser";
 import BootScene from "./scenes/Boot";
 import SplashScene from "./scenes/Splash";
 import GameScene from "./scenes/Game";
+import TitleScene from "./scenes/Title";
+
 
 export default {
 	type: Phaser.AUTO,
@@ -20,6 +22,6 @@ export default {
 	},
 	localStorageName: "phaseres6webpack",
 	webfonts: ["Bangers"],
-	scene: [BootScene, SplashScene, GameScene],
+	scene: [BootScene, SplashScene, TitleScene, GameScene],
 	backgroundColor: "#ffffff"
 };
