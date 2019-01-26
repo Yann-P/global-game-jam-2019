@@ -19,41 +19,23 @@ export default class extends Phaser.Scene {
 		this._paused = false;
 	}
 	
-	initialize () {
+	init (data) {
+		this.levelData = data
 	}
 	
 	preload () {
 	}
 	
-	create ({ scrollSpeed = .1, levelHeight = 10000 }) {
 
+	create ({ scrollSpeed = .1, levelHeight = 10000 }) {
+		this.matter.world.setBounds(-config.physicsSpacing, -this.levelData.physicsOffscreenSize - config.physicsSpacing, config.width + 2 * config.physicsSpacing, config.height + this.levelData.physicsOffscreenSize + config.physicsSpacing * 2)
 
 		this._addScrollingBackground(scrollSpeed);
 		this._addProgressBar(levelHeight);
 		this._addLevelNumberBadge(1);
 		this._addPauseButton();
-
-		this.matter.world.setBounds();
-
-		this.collectableContainer = new CollectableContainer({ scene: this });
-		this.add.existing(this.collectableContainer);
-
-		for (let i = 0 ; i < 5; i++) {
-			this.collectableContainer.makeMemory({x: i * 100, y: 50});
-		}
-		
-		this.collectionJar = new CollectionJar({
-			scene: this,
-			collectableContainer: this.collectableContainer
-		})
-		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
-		
-		this.add.existing(this.collectionJar)
-		
-		this.input.on('pointermove', this.onPointerEvent.bind(this))
-		this.input.on('pointerdown', this.onPointerEvent.bind(this))
-		
-		this.matter.world.setBounds(-config.physicsSpacing, -config.physicsOffscreenSize, config.width + 2 * config.physicsSpacing, config.height + config.physicsOffscreenSize + config.physicsSpacing)
+		this._setupLevel()
+		this._addJar()
 	}
 	
 	onPointerEvent (pointer) {
@@ -82,6 +64,7 @@ export default class extends Phaser.Scene {
 		this.scene.pause();
 		this.scene.launch('PauseOverlay');
 	}
+	
 
 	_addScrollingBackground(scrollSpeed) {
 		this._background = new ScrollingBackground(this, scrollSpeed);
@@ -91,6 +74,28 @@ export default class extends Phaser.Scene {
 	_addProgressBar(totalLevelHeight) {
 		this._progressBar = new LevelProgressBar(this, 100, HUD_Y, totalLevelHeight);
 		this.add.existing(this._progressBar);
+	}
+
+
+	_setupLevel () {
+		this.collectableContainer = new CollectableContainer({ scene: this });
+		this.add.existing(this.collectableContainer);
+		for (let spawn of this.levelData.spawns) {
+			this.collectableContainer.makeMemory(spawn);
+		}
+	}
+
+	_addJar () {
+		this.collectionJar = new CollectionJar({
+			scene: this,
+			collectableContainer: this.collectableContainer
+		})
+		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 150)
+		
+		this.add.existing(this.collectionJar)
+		
+		this.input.on('pointermove', this.onPointerEvent.bind(this))
+		this.input.on('pointerdown', this.onPointerEvent.bind(this))
 	}
 
 }

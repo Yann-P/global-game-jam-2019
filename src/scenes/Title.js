@@ -27,7 +27,7 @@ export default class extends Phaser.Scene {
 			y: this.sys.canvas.height / 2,
 			width: 900,
 			height: 300,
-			onDown: () => this.scene.start('Game')
+			onDown: () => this.scene.start('Game', config.level1Data)
 		})
 		this.add.existing(button);
 	}
