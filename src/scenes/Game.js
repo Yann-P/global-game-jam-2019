@@ -5,6 +5,7 @@ import store from '../store'
 import config from '../config'
 import { CollectableContainer } from '../widgets/CollectableContainer';
 import PauseButton from '../widgets/PauseButton';
+import ScrollingBackground from '../widgets/ScrollingBackground';
 
 export default class extends Phaser.Scene {
 	constructor () {
@@ -20,9 +21,11 @@ export default class extends Phaser.Scene {
 	preload () {
 	}
 	
-	create () {
+	create ({ scrollSpeed = 10 }) {
+
 
 		//this._addLevelNumberBadge(); // TODO IMPLEMENT
+		this._addScrollingBackground(scrollSpeed);
 		this._addPauseButton();
 		//this._addProgressBar();  // TODO IMPLEMENT
 
@@ -54,9 +57,10 @@ export default class extends Phaser.Scene {
 		this.collectionJar.setTargetPosition(pointer.x)
 	}
 	
-	update () {
-		this.collectableContainer.update();
-		this.collectionJar.update()
+	update (t,dt) {
+		this._background.update(t,dt);
+		this.collectableContainer.update(t,dt);
+		this.collectionJar.update(t,dt)
 	}
 
 	_addPauseButton() {
@@ -68,6 +72,11 @@ export default class extends Phaser.Scene {
 	_pause() {
 		this.scene.pause();
 		this.scene.launch('PauseOverlay');
+	}
+
+	_addScrollingBackground(scrollSpeed) {
+		this._background = new ScrollingBackground(this, scrollSpeed);
+		this.add.existing(this._background);
 	}
 
 }
