@@ -23,5 +23,15 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	_addChild(c) {
 		this.add(c);
 	}
+	
+	_getMinimumY () {
+		let minimumY = Number.POSITIVE_INFINITY
+		
+		for (const child of this.list) {
+			minimumY = Math.min(minimumY, child.y)
+		}
+		
+		return minimumY
+	}
 
 }
