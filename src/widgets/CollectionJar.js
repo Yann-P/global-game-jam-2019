@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-const JAR_GEOMETRY = '0 0 0 400 400 400 400 0 350 0 350 350 50 350 50 0';
+const JAR_GEOMETRY = '0 0 0 450 400 450 400 0 350 0 350 400 50 400 50 0';
 
 export default class CollectionJar extends Phaser.GameObjects.Container {
 	constructor (options) {
@@ -13,12 +13,14 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		
 		this.jarContainer = new Phaser.GameObjects.Container(this.scene, 0, 0)
 		this.add(this.jarContainer)
+
 		
-		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, -50, 'jar')
+		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, -30, 'jar')
 		this.jarContainer.add(this.backgroundImage)
 
-		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, -50, 'jar-overlay')
+		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, -30, 'jar-overlay')
 		this.jarContainer.add(this.backgroundImageOverlay)
+
 
 		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY); //, 0x00ffff)
 		
