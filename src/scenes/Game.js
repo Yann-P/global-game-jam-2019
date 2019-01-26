@@ -23,9 +23,14 @@ export default class extends Phaser.Scene {
 	
 	create () {
 
+		this.matter.world.setBounds();
+
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
-		this.collectableContainer.makeMemory({x: 100, y: 100});
+
+		for (let i = 0 ; i < 100; i++) {
+			this.collectableContainer.makeMemory({x: Math.random() * 100, y: Math.random() * 100});
+		}
 
 		const button = new TextButton({
 			scene: this,
