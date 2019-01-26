@@ -95,4 +95,8 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 			])
 		}
 	}
+	
+	_getPosition () {
+		return this.jarBody.x
+	}
 }

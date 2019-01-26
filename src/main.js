@@ -76,7 +76,7 @@ if (window.cordova) {
 			}
 			
 			if(window.screen.orientation && window.screen.orientation.lock) {
-				window.screen.orientation.lock('landscape')
+				window.screen.orientation.lock('portrait')
 			}
 			
 			// When the device is ready, start Phaser Boot state.
