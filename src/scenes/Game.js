@@ -15,42 +15,22 @@ export default class extends Phaser.Scene {
 		this._paused = false;
 	}
 	
-	initialize () {
+	init (data) {
+		this.levelData = data
 	}
 	
 	preload () {
 	}
 	
 	create ({ scrollSpeed = 10 }) {
-
+		this.matter.world.setBounds(-config.physicsSpacing, -this.levelData.physicsOffscreenSize - config.physicsSpacing, config.width + 2 * config.physicsSpacing, config.height + this.levelData.physicsOffscreenSize + config.physicsSpacing * 2)
 
 		//this._addLevelNumberBadge(); // TODO IMPLEMENT
 		this._addScrollingBackground(scrollSpeed);
 		this._addPauseButton();
 		//this._addProgressBar();  // TODO IMPLEMENT
-
-		this.matter.world.setBounds();
-		
-
-		this.collectableContainer = new CollectableContainer({ scene: this });
-		this.add.existing(this.collectableContainer);
-
-		for (let i = 0 ; i < 5; i++) {
-			this.collectableContainer.makeMemory({x: i * 100, y: 50});
-		}
-		
-		this.collectionJar = new CollectionJar({
-			scene: this,
-			collectableContainer: this.collectableContainer
-		})
-		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
-		
-		this.add.existing(this.collectionJar)
-		
-		this.input.on('pointermove', this.onPointerEvent.bind(this))
-		this.input.on('pointerdown', this.onPointerEvent.bind(this))
-		
-		this.matter.world.setBounds(-config.physicsSpacing, -config.physicsOffscreenSize, config.width + 2 * config.physicsSpacing, config.height + config.physicsOffscreenSize + config.physicsSpacing)
+		this._setupLevel()
+		this._addJar()
 	}
 	
 	onPointerEvent (pointer) {
@@ -65,7 +45,7 @@ export default class extends Phaser.Scene {
 
 	_addPauseButton() {
 		const pauseButton = new PauseButton({ scene: this, x: config.width - 50, y: 50})
-	  this.add.existing(pauseButton);
+		this.add.existing(pauseButton);
 		pauseButton.on('pointerup', this._pause.bind(this));
 	}
 
@@ -73,10 +53,34 @@ export default class extends Phaser.Scene {
 		this.scene.pause();
 		this.scene.launch('PauseOverlay');
 	}
+	
+	_setupLevel () {
+		this.collectableContainer = new CollectableContainer({ scene: this });
+		this.add.existing(this.collectableContainer);
 
+<<<<<<< HEAD
 	_addScrollingBackground(scrollSpeed) {
 		this._background = new ScrollingBackground(this, scrollSpeed);
 		this.add.existing(this._background);
 	}
 
+=======
+		for (let spawn of this.levelData.spawns) {
+			this.collectableContainer.makeMemory(spawn);
+		}
+	}
+
+	_addJar () {
+		this.collectionJar = new CollectionJar({
+			scene: this,
+			collectableContainer: this.collectableContainer
+		})
+		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 150)
+		
+		this.add.existing(this.collectionJar)
+		
+		this.input.on('pointermove', this.onPointerEvent.bind(this))
+		this.input.on('pointerdown', this.onPointerEvent.bind(this))
+	}
+>>>>>>> feat/c4-spawning
 }
