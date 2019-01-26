@@ -64,7 +64,6 @@ export default class extends Phaser.Scene {
 		this.scene.pause();
 		this.scene.launch('PauseOverlay');
 	}
-	
 
 	_addScrollingBackground(scrollSpeed) {
 		this._background = new ScrollingBackground(this, scrollSpeed);
@@ -97,5 +96,4 @@ export default class extends Phaser.Scene {
 		this.input.on('pointermove', this.onPointerEvent.bind(this))
 		this.input.on('pointerdown', this.onPointerEvent.bind(this))
 	}
-
 }
