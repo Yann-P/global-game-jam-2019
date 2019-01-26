@@ -62,7 +62,8 @@ export default class extends Phaser.Scene {
 		)
 		
 		this.collectionJar = new CollectionJar({
-			scene: this
+			scene: this,
+			collectableContainer: this.collectableContainer
 		})
 		this.collectionJar.setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
 		this.collectionJar.updatePosition()
