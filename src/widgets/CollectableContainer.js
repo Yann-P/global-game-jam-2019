@@ -21,9 +21,6 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	}
 
 	_addChild(c) {
-		c.on('destroy', () => {
-			this.remove(c, true); // 2nd arg=destroy child
-		});
 		this.add(c);
 	}
 

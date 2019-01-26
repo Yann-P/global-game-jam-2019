@@ -28,8 +28,8 @@ export default class extends Phaser.Scene {
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
 
-		for (let i = 0 ; i < 100; i++) {
-			this.collectableContainer.makeMemory({x: Math.random() * 100, y: Math.random() * 100});
+		for (let i = 0 ; i < 5; i++) {
+			this.collectableContainer.makeMemory({x: i * 100, y: 50});
 		}
 
 		const button = new TextButton({
@@ -70,8 +70,7 @@ export default class extends Phaser.Scene {
 			scene: this,
 			collectableContainer: this.collectableContainer
 		})
-		this.collectionJar.setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
-		this.collectionJar.updatePosition()
+		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
 		
 		this.add.existing(this.collectionJar)
 		
