@@ -8,6 +8,7 @@ import PauseButton from '../widgets/PauseButton';
 import ScrollingBackground from '../widgets/ScrollingBackground';
 import LevelProgressBar from '../widgets/LevelProgressBar';
 import LevelNumberBadge from '../widgets/LevelNumberBadge';
+import Projectile from '../widgets/Projectile'
 
 const HUD_Y = 150;
 
@@ -17,6 +18,9 @@ export default class extends Phaser.Scene {
 			key: 'Game'
 		})
 		this._paused = false;
+		this.lastTap = null
+		this.lastPointer = null
+		this.projectiles = []
 	}
 	
 	init (data) {
@@ -47,6 +51,9 @@ export default class extends Phaser.Scene {
 		this._progressBar.update(t,dt);
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
+		for (let projectile of this.projectiles) {
+			projectile.update(t, dt)
+		}
 	}
 
 	_addLevelNumberBadge(levelNumber) {
@@ -95,5 +102,27 @@ export default class extends Phaser.Scene {
 		
 		this.input.on('pointermove', this.onPointerEvent.bind(this))
 		this.input.on('pointerdown', this.onPointerEvent.bind(this))
+		this.input.on('pointerdown', this.onDoubleTap.bind(this))
+	}
+	
+	onDoubleTap (pointer) {
+		if (this.lastTap === null || this.lastPointer !== pointer) {
+			this.lastTap = Date.now()
+		} else {
+			if (Date.now() - this.lastTap < config.maxDoubleTapDelay) {
+				const projectile = new Projectile({
+					scene: this,
+					x: this.collectionJar._getPosition(),
+					y: this.sys.canvas.height - 400
+				})
+				this.add.existing(projectile)
+				this.projectiles.push(projectile)
+				this.lastTap = null
+			} else {
+				this.lastTap = Date.now()
+			}
+		}
+		
+		this.lastPointer = pointer
 	}
 }
