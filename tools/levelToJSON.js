@@ -28,11 +28,9 @@ for (let i = 1; i < rawLevelData.length; i++) {
 	}
 }
 
-levelData.physicsOffscreenSize -= 1920
-
 for (let spawn of levelData.spawns) {
-	spawn.y = -spawn.y + 1920
-	spawn.fallSpeed /= 40
+	spawn.y = -spawn.y
+	spawn.fallSpeed /= 30
 }
 
 fs.writeFileSync('level.json', JSON.stringify(levelData, null, '\t'))
