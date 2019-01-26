@@ -76,6 +76,8 @@ export default class extends Phaser.Scene {
 		
 		this.input.on('pointermove', this.onPointerEvent.bind(this))
 		this.input.on('pointerdown', this.onPointerEvent.bind(this))
+		
+		this.matter.world.setBounds(-config.physicsSpacing, -config.physicsOffscreenSize, config.width + 2 * config.physicsSpacing, config.height + config.physicsOffscreenSize + config.physicsSpacing)
 	}
 	
 	onPointerEvent (pointer) {
