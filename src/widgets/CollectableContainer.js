@@ -14,9 +14,9 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 		this._addChild(memory);
 	}
 
-	update() {
+	update(t,dt) {
 		for (const child of this.list) {
-			child.update();
+			child.update(t,dt);
 		}
 	}
 

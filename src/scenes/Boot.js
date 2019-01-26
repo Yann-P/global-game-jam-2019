@@ -26,7 +26,8 @@ export default class extends Phaser.Scene {
 		text.setOrigin(0.5, 0.5)
 
 		this._makeMemoryTexture();
-		
+
+		this.load.image('background', './assets/images/background.jpg')
 		this.load.image('loaderBg', './assets/images/loader-bg.png')
 		this.load.image('loaderBar', './assets/images/loader-bar.png')
 	}
