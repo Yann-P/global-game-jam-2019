@@ -6,7 +6,6 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	constructor({ scene, x = 0, y = 0 }) {
 		super(scene, x, y)
 		this._scene = scene;
-		console.log(this._scene)
 	}
 
 
