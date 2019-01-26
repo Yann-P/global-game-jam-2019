@@ -30,9 +30,9 @@ export class Collectable extends Phaser.Physics.Matter.Sprite {
 		this.emit('destroy');
 	}
 
-	update(t, dt) {
+	update(t, dt, horizontalSpeed) {
 		if (!this.destroyed) {
-			this.setVelocity(0, this._fallSpeed)
+			this.setVelocity(horizontalSpeed || 0, this._fallSpeed)
 			if (this.y > config.height + config.physicsSpacing / 2) {
 				this.destroyed = true
 				this.destroy()

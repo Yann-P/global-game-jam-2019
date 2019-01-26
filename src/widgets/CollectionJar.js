@@ -54,6 +54,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 	update () {
 		const difference = Math.max(Math.min(this.targetPosition - this.jarContainer.x, 30), -30)
 		
+		const previousPosition = this.jarContainer.x
 		this.jarContainer.x = Math.max(Math.min(this.jarContainer.x + difference, this.scene.sys.canvas.width - this.collisionSize.width / 2), this.collisionSize.height / 2)
 		this.jarBody.x = this.jarContainer.x
 		this.updateCollisionShape()
@@ -72,7 +73,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		}
 		
 		for (let gameObject of this.memories.list) {
-			gameObject.update()
+			gameObject.update(0, 0, Math.abs(previousPosition - this.jarContainer.x) < 0.1 ? 0 : difference)
 		}
 	}
 	
