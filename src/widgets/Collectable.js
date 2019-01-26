@@ -19,10 +19,13 @@ export class Collectable extends Phaser.Physics.Matter.Sprite {
 		this.setFriction(0)
 		this.destroyed = false
 		this.setScale(radius / 50)
+
+		this.collisionPoint = new Phaser.Geom.Point(this.x, this.y);
 	}
 
 	get collision() {
-		return new Phaser.Geom.Point(this.x, this.y);
+		collisionPoint.x = this.x, collisionPoint.y = this.y;
+		return collisionPoint;
 	}
 	
 	collect() {
