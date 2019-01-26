@@ -32,28 +32,22 @@ export default class extends Phaser.Scene {
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
 
-		for (let i = 0 ; i < 100; i++) {
-			this.collectableContainer.makeMemory({x: Math.random() * 100, y: Math.random() * 100});
+		for (let i = 0 ; i < 5; i++) {
+			this.collectableContainer.makeMemory({x: i * 100, y: 50});
 		}
-		
-		const scoreText = new Phaser.GameObjects.Text(this, 0, 0, store.state.ressources.coins, {
-			fontSize: 100,
-			color: '#0000ff',
-			fontFamily: 'Bangers'
-		})
-		this.add.existing(scoreText)
 		
 		this.collectionJar = new CollectionJar({
 			scene: this,
 			collectableContainer: this.collectableContainer
 		})
-		this.collectionJar.setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
-		this.collectionJar.updatePosition()
+		this.collectionJar._setPosition(this.sys.canvas.width / 2, this.sys.canvas.height - 100)
 		
 		this.add.existing(this.collectionJar)
 		
 		this.input.on('pointermove', this.onPointerEvent.bind(this))
 		this.input.on('pointerdown', this.onPointerEvent.bind(this))
+		
+		this.matter.world.setBounds(-config.physicsSpacing, -config.physicsOffscreenSize, config.width + 2 * config.physicsSpacing, config.height + config.physicsOffscreenSize + config.physicsSpacing)
 	}
 	
 	onPointerEvent (pointer) {
