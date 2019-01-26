@@ -6,6 +6,10 @@ import config from '../config'
 import { CollectableContainer } from '../widgets/CollectableContainer';
 import PauseButton from '../widgets/PauseButton';
 import ScrollingBackground from '../widgets/ScrollingBackground';
+import LevelProgressBar from '../widgets/LevelProgressBar';
+import LevelNumberBadge from '../widgets/LevelNumberBadge';
+
+const HUD_Y = 150;
 
 export default class extends Phaser.Scene {
 	constructor () {
@@ -21,16 +25,15 @@ export default class extends Phaser.Scene {
 	preload () {
 	}
 	
-	create ({ scrollSpeed = 10 }) {
+	create ({ scrollSpeed = .1, levelHeight = 10000 }) {
 
 
-		//this._addLevelNumberBadge(); // TODO IMPLEMENT
 		this._addScrollingBackground(scrollSpeed);
+		this._addProgressBar(levelHeight);
+		this._addLevelNumberBadge(1);
 		this._addPauseButton();
-		//this._addProgressBar();  // TODO IMPLEMENT
 
 		this.matter.world.setBounds();
-		
 
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
@@ -59,12 +62,18 @@ export default class extends Phaser.Scene {
 	
 	update (t,dt) {
 		this._background.update(t,dt);
+		this._progressBar.update(t,dt);
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
 	}
 
+	_addLevelNumberBadge(levelNumber) {
+		const badge = new LevelNumberBadge({ scene: this, x: 150, y: HUD_Y, levelNumber /* TODO */})
+	  this.add.existing(badge);
+	}
+
 	_addPauseButton() {
-		const pauseButton = new PauseButton({ scene: this, x: config.width - 50, y: 50})
+		const pauseButton = new PauseButton({ scene: this, x: config.width - 150, y: HUD_Y})
 	  this.add.existing(pauseButton);
 		pauseButton.on('pointerup', this._pause.bind(this));
 	}
@@ -77,6 +86,11 @@ export default class extends Phaser.Scene {
 	_addScrollingBackground(scrollSpeed) {
 		this._background = new ScrollingBackground(this, scrollSpeed);
 		this.add.existing(this._background);
+	}
+
+	_addProgressBar(totalLevelHeight) {
+		this._progressBar = new LevelProgressBar(this, 100, HUD_Y, totalLevelHeight);
+		this.add.existing(this._progressBar);
 	}
 
 }

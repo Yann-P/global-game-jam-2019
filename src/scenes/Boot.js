@@ -28,6 +28,14 @@ export default class extends Phaser.Scene {
 		this._makeMemoryTexture();
 
 		this.load.image('background', './assets/images/background.jpg')
+		this.load.image('pause', './assets/images/pause.png')
+
+		for(let i = 1; i <= 5; i++)	this.load.image('l'+i, './assets/images/l'+i+'.png')
+
+
+		this.load.image('progress-bg', './assets/images/progress-bg.png')
+		this.load.image('progress-fg', './assets/images/progress-fg.png')
+		this.load.image('progress-overlay', './assets/images/progress-overlay.png')
 		this.load.image('loaderBg', './assets/images/loader-bg.png')
 		this.load.image('loaderBar', './assets/images/loader-bar.png')
 	}

@@ -9,6 +9,6 @@ export default class extends Phaser.GameObjects.TileSprite {
 
 
 	update(t, dt) {
-		this.tilePositionY+=1*dt;
+		this.tilePositionY -= this._scrollSpeed * dt;
 	}
 }
