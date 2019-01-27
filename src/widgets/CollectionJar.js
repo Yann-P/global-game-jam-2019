@@ -37,6 +37,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 			height: 450
 		}
 		this.collisionShape = new Phaser.Geom.Polygon([])
+		this._overlayIsBeingAnimated = false;
 		
 		this.setTargetPosition(this.jarContainer.x)
 		this.updateCollisionShape()
@@ -103,14 +104,17 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 	}
 
 	_handsGlow() {
+
+		if(this._overlayIsBeingAnimated) return;
+		this._overlayIsBeingAnimated = true;
 		const tween = this.scene.tweens.add({
 			targets: [this.backgroundImageOverlay],
-			alpha:1,
-			ease: 'Quad',
-			duration: 500,
+			alpha:.5,
+			ease: 'Quad.easeOut',
+			duration: 200,
 			repeat: 0,
 			yoyo: true,
-			onComplete: function () { tween.stop();  },
+			onComplete: () => { tween.stop();  this._overlayIsBeingAnimated = false; },
 		});
 	}
 

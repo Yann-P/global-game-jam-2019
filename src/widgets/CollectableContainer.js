@@ -22,6 +22,7 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 			t: Trauma
 		})[type]({ scene: this._scene, x, y, fallSpeed, radius });
 		this._addChild(memory);
+		return memory;
 	}
 
 	update(t,dt) {

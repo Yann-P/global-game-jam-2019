@@ -61,6 +61,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 
 	enteredTheJar() {
 		if(this._inJar) return;
+		this.emit('enterjar')
 		this._inJar = true;
 		this.stopTween();
 	}

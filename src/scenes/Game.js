@@ -9,6 +9,7 @@ import ScrollingBackground from '../widgets/ScrollingBackground';
 import LevelProgressBar from '../widgets/LevelProgressBar';
 import LevelNumberBadge from '../widgets/LevelNumberBadge';
 import Projectile from '../widgets/Projectile'
+import { GoodMemory, Trauma } from '../widgets/Memory';
 
 const HUD_Y = 150;
 
@@ -106,7 +107,13 @@ export default class extends Phaser.Scene {
 		this.collectableContainer = new CollectableContainer({ scene: this });
 		this.add.existing(this.collectableContainer);
 		for (let spawn of this.levelData.spawns) {
-			this.collectableContainer.makeMemory(spawn);
+			const mem = this.collectableContainer.makeMemory(spawn);
+			mem.on('enterjar', () => {
+				if(mem instanceof GoodMemory)
+					this._positiveFeedback()
+				if(mem instanceof Trauma)
+					this._negativeFeedback()
+			})
 		}
 	}
 
