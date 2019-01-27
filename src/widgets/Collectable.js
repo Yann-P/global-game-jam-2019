@@ -9,7 +9,8 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 			shape: {
 				type: 'circle',
 				radius: 50
-			} 
+			},
+			inertia: Infinity
 		})
 		this._rotate = rotate
 		this._glowTint = glowTint
