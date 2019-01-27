@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { Alzheimer } from './Memory';
 import store from '../store'
 
-const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 350 0 350 320 70 320 70 0';
+const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 330 0 330 400 50 400 50 0';
 const JAR_OFFSET = -30
 
 export default class CollectionJar extends Phaser.GameObjects.Container {
@@ -35,7 +35,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.add(this.jarBody)
 		
 		this.collisionSize = {
-			width: 400,
+			width: 380,
 			height: 450
 		}
 		this.collisionShape = new Phaser.Geom.Polygon([])
