@@ -19,6 +19,16 @@ export default class extends Phaser.Scene {
 		this.load.image('mushroom', 'assets/images/mushroom2.png')
 		this._makeMemoryTexture();
 
+		this.load.image('bg-end', './assets/images/bg-end.png')
+		this.load.image('finished', './assets/images/finished.png')
+		this.load.image('play', './assets/images/play.png')
+
+		for(let i = 0; i <= 100; i += 10) {
+			this.load.image('e'+i, './assets/images/e'+i+'.png')
+
+		}
+
+
 		this.load.image('background', './assets/images/background.jpg')
 		this.load.image('pause', './assets/images/pause.png')
 		this.load.image('jar', './assets/images/jar.png')

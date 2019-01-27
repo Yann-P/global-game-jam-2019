@@ -5,6 +5,7 @@ import SplashScene from "./scenes/Splash";
 import GameScene from "./scenes/Game";
 import TitleScene from "./scenes/Title";
 import PauseOverlay from "./scenes/PauseOverlay";
+import EndLevel from "./scenes/EndLevel";
 
 
 const width = 1080
@@ -34,7 +35,7 @@ export default {
 	},
 	localStorageName: "phaseres6webpack",
 	webfonts: ["Bangers"],
-	scene: [BootScene, SplashScene, TitleScene, GameScene, PauseOverlay],
+	scene: [BootScene, SplashScene, TitleScene, GameScene, PauseOverlay, EndLevel],
 	backgroundColor: "#ffffff",
 	level1Data: {
 		"physicsOffscreenSize": 7537,
