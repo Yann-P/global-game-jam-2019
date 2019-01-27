@@ -100,8 +100,10 @@ export default class extends Phaser.Scene {
 
 
 	_setupLevel () {
+		this.collectables = new Phaser.GameObjects.Container(this, 0, 0)
+		this.add.existing(this.collectables)
 		this.collectableContainer = new CollectableContainer({ scene: this });
-		this.add.existing(this.collectableContainer);
+		this.collectables.add(this.collectableContainer);
 		for (let spawn of this.levelData.spawns) {
 			const mem = this.collectableContainer.makeMemory(spawn);
 			mem.on('enterjar', () => {

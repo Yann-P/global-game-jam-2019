@@ -10,7 +10,9 @@ export class Memory extends Collectable {
 			y, 
 			fallSpeed, 
 			radius, 
-			key
+			key,
+			rotate,
+			glowTint
 		});
 		this._glowTint = glowTint;
 		this._type = key

@@ -32,6 +32,7 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	}
 
 	_addChild(c) {
+		this.parentContainer.addAt(c._glow, 0)
 		this.add(c);
 	}
 	

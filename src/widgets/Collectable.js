@@ -3,7 +3,7 @@ import config from '../config'
 import { timingSafeEqual } from "crypto";
 
 export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
-  constructor ({ scene, x, y, key, radius, fallSpeed, rotate }) {
+  constructor ({ scene, x, y, key, radius, fallSpeed, rotate, glowTint }) {
 		super(scene.matter.world, x, y, key, null, { 
 			restitution: 0,
 			shape: {
@@ -12,6 +12,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 			} 
 		})
 		this._rotate = rotate
+		this._glowTint = glowTint
 		this._inJar = false;
 		this._radius = radius;
 		this.width = this.height = radius * .7;
@@ -28,15 +29,6 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 
 		this.collisionPoint = new Phaser.Geom.Point(this.x, this.y);
 		this.collisionShapeCache = new Phaser.Geom.Circle(this.x, this.y, this._radius);
-
-		this._tween = scene.tweens.add({
-			targets: [this],
-			rotation: Math.PI * 2, 
-			duration: Math.random() * 1000 + 3000,
-			delay: Math.random() * 1000,
-			ease: 'Quad.easeInOut',
-			repeat: -1
-		});
 
 		if (this._rotate) {
 			this._tween = scene.tweens.add({
@@ -60,10 +52,6 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 			yoyo: true,
 			repeat: -1
 		});
-
-
-
-		scene.add.existing(this._glow);
 
 	}
 
