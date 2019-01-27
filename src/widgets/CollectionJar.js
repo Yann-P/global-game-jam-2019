@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import { Alzheimer } from './Memory';
 import store from '../store'
 
-const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 330 0 330 400 50 400 50 0';
+const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 330 0 330 380 50 380 50 0';
 const JAR_OFFSET = -30
 
 export default class CollectionJar extends Phaser.GameObjects.Container {
@@ -154,5 +154,10 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 	_addBackgroundImage() {
 		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar')
 		this.jarContainer.add(this.backgroundImage)
+	}
+	
+	_collectAlzheimer (alzheimer) {
+		alzheimer.enteredTheJar();
+		this.memories.add(alzheimer)
 	}
 }

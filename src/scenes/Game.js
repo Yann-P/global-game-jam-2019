@@ -65,6 +65,19 @@ export default class extends Phaser.Scene {
 				}
 			})
 		}
+		
+		const markedForRemoval = []
+		
+		for (let collectable of this.collectableContainer.list) {
+			if (collectable._type === 'alzheimer' && collectable.y > this.sys.canvas.height - 200) {
+				this.collectionJar._collectAlzheimer(collectable)
+				markedForRemoval.push(collectable)
+			}
+		}
+		
+		for (let collectable of markedForRemoval) {
+			this.collectableContainer.remove(collectable)
+		}
 	}
 
 	_addLevelNumberBadge(levelNumber) {
@@ -167,54 +180,73 @@ export default class extends Phaser.Scene {
 
 	_triggerAlzheimer(alzh) {
 		const victim = this.collectionJar.selectRandomNonAlzheimerCollectableInJar();
-		if(!victim || !(victim.body) || victim.destroyed) return;
-		victim._busy = true;
-		
+		if(!victim || !(victim.body) || victim.destroyed) {
+			alzh.disableFalling();
+			
+			const flyAwayPath = new Phaser.Curves.Path(alzh.x, alzh.y);
+			flyAwayPath.lineTo(config.width / 2, -200);
+			
+			const follower1 = this._mkFollower((x, y) => alzh.setPosition(x, y), flyAwayPath);
+			
+			this.tweens.add({
+				targets: follower1,
+				t: 1,
+				ease: 'Sine.easeInOut',
+				duration: 2000,
+				onComplete: () => {
+					this.collectionJar.deleteCollectableInJar(alzh);
+					alzh.destroy();
+				}
+			})
+		} else {
+			victim._busy = true;
+			
 
-		// Move alzheimer to the victim
-		alzh.disableFalling();
-		victim.disableFalling();
+			// Move alzheimer to the victim
+			alzh.disableFalling();
+			victim.disableFalling();
 
-		//victim.setPosition(config.width / 2, 1300);
+			//victim.setPosition(config.width / 2, 1300);
 
-		const alzhPath = new Phaser.Curves.Path(alzh.x, alzh.y);
-		alzhPath.lineTo(victim.x, victim.y);
-		
+			const alzhPath = new Phaser.Curves.Path(alzh.x, alzh.y);
+			alzhPath.lineTo(victim.x, victim.y);
+			
 
-		const follower1 = this._mkFollower((x, y) => alzh.setPosition(x, y), alzhPath);
+			const follower1 = this._mkFollower((x, y) => alzh.setPosition(x, y), alzhPath);
 
-		
-		this.tweens.add({
-			targets: follower1,
-			t: 1,
-			ease: 'Sine.easeInOut',
-			duration: 1000,
-			onComplete: () => {
+			
+			this.tweens.add({
+				targets: follower1,
+				t: 1,
+				ease: 'Sine.easeInOut',
+				duration: 1000,
+				onComplete: () => {
 
-				const flyAwayPath = new Phaser.Curves.Path(alzh.x, alzh.y);
-				flyAwayPath.lineTo(config.width / 2, -200);
+					const flyAwayPath = new Phaser.Curves.Path(alzh.x, alzh.y);
+					flyAwayPath.lineTo(config.width / 2, -200);
 
-				const follower2 = this._mkFollower((x, y) => {
-					victim.setPosition(x, y);
-					alzh.rotation = 0;
-					alzh.setPosition(x, y - 100)
-				}, flyAwayPath);
+					const follower2 = this._mkFollower((x, y) => {
+						victim.setPosition(x, y);
+						alzh.rotation = 0;
+						alzh.setPosition(x, y - 100)
+					}, flyAwayPath);
 
-				this.tweens.add({
-					targets: follower2,
-					t: 1,
-					ease: 'Sine.easeInOut',
-					duration: 2000,
-					onComplete: () => {
-						this.collectionJar.deleteCollectableInJar(victim);
-						this.collectionJar.deleteCollectableInJar(alzh);
-						alzh.destroy();
-						victim.destroy();
-					}
-				});
+					this.tweens.add({
+						targets: follower2,
+						t: 1,
+						ease: 'Sine.easeInOut',
+						duration: 2000,
+						onComplete: () => {
+							this.collectionJar.deleteCollectableInJar(victim);
+							this.collectionJar.deleteCollectableInJar(alzh);
+							alzh.destroy();
+							victim.destroy();
+						}
+					});
 
-			}
-		});
+				}
+			});
+		}
 		
 
 	}
