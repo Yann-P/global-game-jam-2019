@@ -21,7 +21,6 @@ export default class extends Phaser.Scene {
 		this._paused = false;
 		this.lastTap = null
 		this.lastPointer = null
-		this.projectiles = []
 	}
 	
 	init (data) {
@@ -52,9 +51,6 @@ export default class extends Phaser.Scene {
 		this._progressBar._setProgress(Math.max(0, -this.collectableContainer._getMinimumY() / this.levelData.physicsOffscreenSize))
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
-		for (let projectile of this.projectiles) {
-			projectile.update(t, dt)
-		}
 	}
 
 	_addLevelNumberBadge(levelNumber) {
@@ -136,13 +132,7 @@ export default class extends Phaser.Scene {
 			this.lastTap = Date.now()
 		} else {
 			if (Date.now() - this.lastTap < config.maxDoubleTapDelay) {
-				const projectile = new Projectile({
-					scene: this,
-					x: this.collectionJar._getPosition(),
-					y: this.sys.canvas.height - 400
-				})
-				this.add.existing(projectile)
-				this.projectiles.push(projectile)
+				this.collectableContainer._destroyAlzheimers(pointer.x, pointer.y)
 				this.lastTap = null
 			} else {
 				this.lastTap = Date.now()

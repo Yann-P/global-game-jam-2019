@@ -13,6 +13,7 @@ export class Memory extends Collectable {
 			key
 		});
 		this._glowTint = glowTint;
+		this._type = key
 	}
 	
 	_addGlow(scene, radius) {

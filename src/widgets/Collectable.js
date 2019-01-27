@@ -26,6 +26,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 		this.setScale(radius / 50)
 
 		this.collisionPoint = new Phaser.Geom.Point(this.x, this.y);
+		this.collisionShapeCache = new Phaser.Geom.Circle(this.x, this.y, this._radius);
 
 		this._tween = scene.tweens.add({
 			targets: [this],
@@ -79,8 +80,13 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 	}
 
 	get collision() {
-		collisionPoint.x = this.x, collisionPoint.y = this.y;
-		return collisionPoint;
+		this.collisionPoint.x = this.x, this.collisionPoint.y = this.y;
+		return this.collisionPoint;
+	}
+	
+	get collisionShape() {
+		this.collisionShapeCache.setPosition(this.x, this.y)
+		return this.collisionShapeCache;
 	}
 	
 	collect() {
