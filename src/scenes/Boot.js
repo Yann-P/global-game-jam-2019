@@ -13,14 +13,16 @@ export default class extends Phaser.Scene {
 	}
 	
 	preload () {
-		if (config.webfonts.length) {
-			WebFont.load({
-				google: {
-					families: config.webfonts
-				},
-				active: this.fontsLoaded.bind(this)
-			})
-		}
+		// if (config.webfonts.length) {
+		// 	WebFont.load({
+		// 		google: {
+		// 			families: config.webfonts
+		// 		},
+		// 		active: this.fontsLoaded.bind(this)
+		// 	})
+		// }
+
+		this.fontsLoaded()
 		
 		let text = this.add.text(config.width / 2, config.height / 2, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
 		text.setOrigin(0.5, 0.5)

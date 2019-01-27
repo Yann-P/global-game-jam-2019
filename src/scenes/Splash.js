@@ -40,8 +40,8 @@ export default class extends Phaser.Scene {
 		this.load.image('mem-trauma', 'assets/images/mem-trauma.png')
 		this.load.image('alzheimer', 'assets/images/alzheimer.png')
 		this.load.image('glow', 'assets/images/glow.png')
-		this.load.image('startscreen', '/assets/images/Startscreen_MemoryLane_v002.png')
-		this.load.image('playButton', '/assets/images/PlayButton_MemoryLane_v001.png')
+		this.load.image('startscreen', 'assets/images/Startscreen_MemoryLane_v002.png')
+		this.load.image('playButton', 'assets/images/PlayButton_MemoryLane_v001.png')
 
 		for(let i = 1; i <= 5; i++)	this.load.image('l'+i, 'assets/images/l'+i+'.png')
 
