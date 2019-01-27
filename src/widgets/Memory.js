@@ -29,7 +29,7 @@ export class Memory extends Collectable {
 		return glow;
 	}
 
-	update() {		
+	update() {
 		super.update(...arguments)
 	}
 }
