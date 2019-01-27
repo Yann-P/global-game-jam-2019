@@ -18,10 +18,6 @@ export default class extends Phaser.Scene {
 		super({
 			key: 'Game'
 		})
-		this._paused = false;
-		this.lastTap = null
-		this.lastPointer = null
-		this.gameOverInProgress = false
 	}
 	
 	init (data) {
@@ -40,6 +36,13 @@ export default class extends Phaser.Scene {
 		this._addPauseButton();
 		this._setupLevel()
 		this._addJar()
+
+		this._paused = false;
+		this.lastTap = null
+		this.lastPointer = null
+		this.gameOverInProgress = false
+		
+		store.dispatch('player/reset')
 	}
 	
 	onPointerEvent (pointer) {
