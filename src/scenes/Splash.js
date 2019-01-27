@@ -31,7 +31,10 @@ export default class extends Phaser.Scene {
 		}
 
 
-		this.load.image('background', 'assets/images/background.jpg')
+		// this.load.image('background', 'assets/images/background.jpg')
+		this.load.image('background1', 'assets/images/background_MemoryLane_v001-1.jpg')
+		this.load.image('background2', 'assets/images/background_MemoryLane_v001-2.jpg')
+		this.load.image('background3', 'assets/images/background_MemoryLane_v001-3.jpg')
 		this.load.image('pause', 'assets/images/pause.png')
 		this.load.image('jar', 'assets/images/jar.png')
 		this.load.image('jar-overlay', 'assets/images/jar-overlay.png')
