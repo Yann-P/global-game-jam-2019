@@ -21,6 +21,7 @@ export default class extends Phaser.Scene {
 		this._paused = false;
 		this.lastTap = null
 		this.lastPointer = null
+		this.gameOverInProgress = false
 	}
 	
 	init (data) {
@@ -29,7 +30,6 @@ export default class extends Phaser.Scene {
 	
 	preload () {
 	}
-	
 
 	create ({ scrollSpeed = .1, levelHeight = 10000 }) {
 		this.matter.world.setBounds(-config.physicsSpacing, -this.levelData.physicsOffscreenSize - config.physicsSpacing, config.width + 2 * config.physicsSpacing, config.height + this.levelData.physicsOffscreenSize + config.physicsSpacing * 2)
@@ -51,16 +51,27 @@ export default class extends Phaser.Scene {
 		this._progressBar._setProgress(Math.max(0, -this.collectableContainer._getMinimumY() / this.levelData.physicsOffscreenSize))
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
+		
+		if (this.collectableContainer.list.length === 0 && !this.gameOverInProgress) {
+			this.gameOverInProgress = true
+			
+			this.time.addEvent({
+				delay: 1000,
+				callback: () => {
+					this.scene.start('Title')
+				}
+			})
+		}
 	}
 
 	_addLevelNumberBadge(levelNumber) {
 		const badge = new LevelNumberBadge({ scene: this, x: 150, y: HUD_Y, levelNumber /* TODO */})
-	  this.add.existing(badge);
+		this.add.existing(badge);
 	}
 
 	_addPauseButton() {
 		const pauseButton = new PauseButton({ scene: this, x: config.width - 150, y: HUD_Y})
-	  this.add.existing(pauseButton);
+		this.add.existing(pauseButton);
 		pauseButton.on('pointerup', this._pause.bind(this));
 	}
 
