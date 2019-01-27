@@ -15,12 +15,9 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.jarContainer = new Phaser.GameObjects.Container(this.scene, 0, 0)
 		this.add(this.jarContainer)
 
-		
-		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar')
-		this.jarContainer.add(this.backgroundImage)
 
-		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar-overlay')
-		this.jarContainer.add(this.backgroundImageOverlay)
+		this._addBackgroundImage();
+		this._addGraphicalOverlay();
 
 
 		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY); //, 0x00ffff)
@@ -88,8 +85,6 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		for (let gameObject of this.memories.list) {
 			gameObject.update(t, dt, Math.abs(previousPosition - this.jarContainer.x) < 0.1 ? 0 : difference)
 		}
-
-		this.backgroundImageOverlay.alpha = Math.sin((t / 1000) / 2 + .5) / 2;
 	}
 	
 	updateCollisionShape() {
@@ -105,5 +100,28 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 	
 	_getPosition () {
 		return this.jarBody.x
+	}
+
+	_handsGlow() {
+		const tween = this.scene.tweens.add({
+			targets: [this.backgroundImageOverlay],
+			alpha:1,
+			ease: 'Quad',
+			duration: 500,
+			repeat: 0,
+			yoyo: true,
+			onComplete: function () { tween.stop();  },
+		});
+	}
+
+	_addGraphicalOverlay() {
+		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar-overlay')
+		this.backgroundImageOverlay.alpha = 0;
+		this.jarContainer.add(this.backgroundImageOverlay)
+	}
+
+	_addBackgroundImage() {
+		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar')
+		this.jarContainer.add(this.backgroundImage)
 	}
 }

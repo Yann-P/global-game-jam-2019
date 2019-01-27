@@ -82,6 +82,25 @@ export default class extends Phaser.Scene {
 		this.add.existing(this._progressBar);
 	}
 
+	_positiveFeedback() {
+		this.collectionJar._handsGlow();
+	}
+
+	_negativeFeedback() {
+		const g = this.add.graphics();
+		g.fillStyle(0xff0000);
+		g.fillRect(0, 0, config.width, config.height);
+
+		const tween = this.tweens.add({
+			targets: [g],
+			alpha:0,
+			ease: 'Quad',
+			duration: 300,
+			repeat: 0,
+			onComplete: function () { tween.stop(); g.destroy(); },
+		});
+	}
+
 
 	_setupLevel () {
 		this.collectableContainer = new CollectableContainer({ scene: this });
