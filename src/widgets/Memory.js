@@ -29,7 +29,9 @@ export class Memory extends Collectable {
 		return glow;
 	}
 
-	update(t,dt){super.update(t, dt)}
+	update() {		
+		super.update(...arguments)
+	}
 }
 
 export class GoodMemory extends Memory {
@@ -54,8 +56,8 @@ export class Alzheimer extends Memory {
 	constructor({ scene, x, y, fallSpeed, radius }) {
 		super(Object.assign(arguments[0], { key: 'alzheimer', rotate: false, glowTint: 0xaa0000 }));
 	}
-	update(t,dt) {
-		super.update(t, dt)
+	update() {
+		super.update(...arguments)
 		//this.setPosition(this.x + (this.x > config.width/2 ? -2 : 2), this.y);
 	}
 }
