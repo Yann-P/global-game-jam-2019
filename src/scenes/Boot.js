@@ -31,6 +31,13 @@ export default class extends Phaser.Scene {
 		this.load.image('pause', './assets/images/pause.png')
 		this.load.image('jar', './assets/images/jar.png')
 		this.load.image('jar-overlay', './assets/images/jar-overlay.png')
+		this.load.image('mem-good', './assets/images/mem-good.png')
+		this.load.image('mem-bad', './assets/images/mem-bad.png')
+		this.load.image('mem-trauma', './assets/images/mem-trauma.png')
+		this.load.image('alzheimer', './assets/images/alzheimer.png')
+		this.load.image('glow', './assets/images/glow.png')
+
+
 
 
 		for(let i = 1; i <= 5; i++)	this.load.image('l'+i, './assets/images/l'+i+'.png')

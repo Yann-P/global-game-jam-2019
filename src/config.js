@@ -138,7 +138,7 @@ export default {
 				"radius": 23
 			},
 			{
-				"type": "l",
+				"type": "a",
 				"x": 540,
 				"y": -2693,
 				"fallSpeed": 6.5,

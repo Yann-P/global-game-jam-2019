@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-const JAR_GEOMETRY = '0 0 0 450 400 450 400 0 350 0 350 400 50 400 50 0';
+const JAR_GEOMETRY = '0 0 0 450 400 450 400 0 350 0 350 380 50 380 50 0';
 
 export default class CollectionJar extends Phaser.GameObjects.Container {
 	constructor (options) {
@@ -22,7 +22,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.jarContainer.add(this.backgroundImageOverlay)
 
 
-		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY); //, 0x00ffff)
+		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY);
 		
 		this.scene.matter.add.gameObject(this.jarBody, {
 			shape: {
@@ -69,10 +69,12 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		
 		let markedForRemoval = []
 		
-		for (let gameObject of this.collectableContainer.list) {
-			if (this.collide(gameObject)) {
-				this.memories.add(gameObject)
-				markedForRemoval.push(gameObject)
+		for (let collectable of this.collectableContainer.list) {
+			if (this.collide(collectable)) {
+				collectable.enteredTheJar();
+				this.memories.add(collectable)
+				this.backgroundImage.depth++;
+				markedForRemoval.push(collectable)
 			}
 		}
 		

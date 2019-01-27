@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { Memory } from "./Memory";
+import { GoodMemory, BadMemory, Trauma, Alzheimer } from "./Memory";
 
 export class CollectableContainer extends Phaser.GameObjects.Container {
 
@@ -9,8 +9,17 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	}
 
 
-	makeMemory({ x, y, fallSpeed, radius }) {
-		const memory = new Memory({ scene: this._scene, x, y, fallSpeed, radius });
+	makeMemory({ x, y, fallSpeed, radius, type = 'g'}) {
+		console.log(type)
+
+		if(!(~~['a', 'g', 'b', 't'].indexOf(type))) type = 'a';
+
+		const memory = new ({
+			g: GoodMemory,
+			b: BadMemory,
+			a: Alzheimer,
+			t: Trauma
+		})[type]({ scene: this._scene, x, y, fallSpeed, radius });
 		this._addChild(memory);
 	}
 
