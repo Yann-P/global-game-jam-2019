@@ -25,12 +25,7 @@ export default class extends Phaser.Scene {
 		})
 		startButton.on('pointerup', () => {
 			startButton.setScale(1)
-			this.time.addEvent({
-				delay: 200,
-				callback: () => {
-					this.scene.start('Game', config.level1Data)
-				}
-			})
+			this.scene.start('Game', config.level1Data)
 		})
 		this.add.existing(startButton)
 	}

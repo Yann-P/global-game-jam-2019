@@ -35,6 +35,6 @@ export default class extends Phaser.Scene {
 		this.add.existing(play)
 		play.setOrigin(0.5, 0.5)
 		play.setInteractive()
-		play.on('pointerdown', () => this.scene.start('Title'))
+		play.on('pointerdown', () => this.scene.start('Game', config.level1Data))
 	}
 }

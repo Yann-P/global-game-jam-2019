@@ -61,7 +61,7 @@ export default class extends Phaser.Scene {
 			this.time.addEvent({
 				delay: 1000,
 				callback: () => {
-					this.scene.start('Title')
+					this.scene.start('EndLevel')
 				}
 			})
 		}
@@ -100,14 +100,14 @@ export default class extends Phaser.Scene {
 	_negativeFeedback(color = 0xff0000) {
 		const g = this.add.graphics();
 		g.fillStyle(color);
-		g.alpha = 1;
+		g.alpha = .8;
 		g.fillRect(0, 0, config.width, config.height);
 
 		const tween = this.tweens.add({
 			targets: [g],
 			alpha:0,
 			ease: 'Quad',
-			duration: 500,
+			duration: 700,
 			repeat: 0,
 			onComplete: function () { tween.stop(); g.destroy(); },
 		});
@@ -122,6 +122,8 @@ export default class extends Phaser.Scene {
 		for (let spawn of this.levelData.spawns) {
 			const mem = this.collectableContainer.makeMemory(spawn);
 			mem.on('enterjar', () => {
+				if(mem instanceof Trauma)
+					this.scene.start('GameOver')
 				if(mem instanceof GoodMemory)
 					this._positiveFeedback()
 				if(mem instanceof Trauma)
