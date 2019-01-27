@@ -48,7 +48,7 @@ export default class extends Phaser.Scene {
 	
 	update (t,dt) {
 		this._background.update(t,dt);
-		this._progressBar.update(t,dt);
+		this._progressBar._setProgress(Math.max(0, -this.collectableContainer._getMinimumY() / this.levelData.physicsOffscreenSize))
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
 		for (let projectile of this.projectiles) {

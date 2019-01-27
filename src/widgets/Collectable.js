@@ -17,6 +17,9 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 		this._fallSpeed = fallSpeed
 		this.setVelocity(0, this._fallSpeed)
 		this.setBounce(0)
+		this.setMass(0.001)
+		this.setDensity(0.001)
+
 		this.setFrictionAir(0)
 		this.setFriction(0)
 		this.destroyed = false

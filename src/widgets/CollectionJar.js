@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
-const JAR_GEOMETRY = '0 0 0 450 400 450 400 0 350 0 350 380 50 380 50 0';
+const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 350 0 350 320 70 320 70 0';
+const JAR_OFFSET = -30
 
 export default class CollectionJar extends Phaser.GameObjects.Container {
 	constructor (options) {
@@ -15,14 +16,14 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		this.add(this.jarContainer)
 
 		
-		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, -30, 'jar')
+		this.backgroundImage = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar')
 		this.jarContainer.add(this.backgroundImage)
 
-		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, -30, 'jar-overlay')
+		this.backgroundImageOverlay = new Phaser.GameObjects.Image(this.scene, 0, JAR_OFFSET, 'jar-overlay')
 		this.jarContainer.add(this.backgroundImageOverlay)
 
 
-		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY);
+		this.jarBody = new Phaser.GameObjects.Polygon(this.scene, 0, 0, JAR_GEOMETRY); //, 0x00ffff)
 		
 		this.scene.matter.add.gameObject(this.jarBody, {
 			shape: {
@@ -36,7 +37,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		
 		this.collisionSize = {
 			width: 400,
-			height: 350
+			height: 450
 		}
 		this.collisionShape = new Phaser.Geom.Polygon([])
 		
@@ -75,6 +76,8 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 				this.memories.add(collectable)
 				this.backgroundImage.depth++;
 				markedForRemoval.push(collectable)
+				console.log(this.memories.list.length)
+
 			}
 		}
 		
@@ -92,10 +95,10 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 	updateCollisionShape() {
 		if (this.collisionShape) {
 			this.collisionShape.setTo([
-				new Phaser.Geom.Point(this.jarContainer.x - this.collisionSize.width / 2, this.jarContainer.y - this.collisionSize.height / 2),
-				new Phaser.Geom.Point(this.jarContainer.x - this.collisionSize.width / 2, this.jarContainer.y + this.collisionSize.height / 2),
-				new Phaser.Geom.Point(this.jarContainer.x + this.collisionSize.width / 2, this.jarContainer.y + this.collisionSize.height / 2),
-				new Phaser.Geom.Point(this.jarContainer.x + this.collisionSize.width / 2, this.jarContainer.y - this.collisionSize.height / 2)
+				new Phaser.Geom.Point(this.jarContainer.x - this.collisionSize.width / 2, this.jarContainer.y - this.collisionSize.height / 2 + JAR_OFFSET),
+				new Phaser.Geom.Point(this.jarContainer.x - this.collisionSize.width / 2, this.jarContainer.y + this.collisionSize.height / 2 + JAR_OFFSET),
+				new Phaser.Geom.Point(this.jarContainer.x + this.collisionSize.width / 2, this.jarContainer.y + this.collisionSize.height / 2 + JAR_OFFSET),
+				new Phaser.Geom.Point(this.jarContainer.x + this.collisionSize.width / 2, this.jarContainer.y - this.collisionSize.height / 2 + JAR_OFFSET)
 			])
 		}
 	}

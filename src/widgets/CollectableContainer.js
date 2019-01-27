@@ -12,7 +12,8 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	makeMemory({ x, y, fallSpeed, radius, type = 'g'}) {
 		console.log(type)
 
-		if(!(~~['a', 'g', 'b', 't'].indexOf(type))) type = 'a';
+		type = type[0].toLowerCase();
+		if(['a', 'g', 'b', 't'].indexOf(type)===-1) type = 'a';
 
 		const memory = new ({
 			g: GoodMemory,
@@ -31,6 +32,16 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 
 	_addChild(c) {
 		this.add(c);
+	}
+	
+	_getMinimumY () {
+		let minimumY = Number.POSITIVE_INFINITY
+		
+		for (const child of this.list) {
+			minimumY = Math.min(minimumY, child.y)
+		}
+		
+		return minimumY
 	}
 
 }
