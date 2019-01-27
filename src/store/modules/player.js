@@ -10,7 +10,6 @@ const mutations = {
 		} else {
 			state.badMemories += memory.value
 		}
-		console.log(state)
 	}
 }
 
