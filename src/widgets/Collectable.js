@@ -13,7 +13,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 		})
 		this._inJar = false;
 		this._radius = radius;
-		this.width = this.height = radius * .7;
+		this.width = this.height = radius;
 		this._fallSpeed = fallSpeed
 		this.setVelocity(0, this._fallSpeed)
 		this.setBounce(0)
@@ -49,9 +49,10 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 			repeat: -1
 		});
 
-
+		this._doesNotFallDown = false; // I like double negations
 
 		scene.add.existing(this._glow);
+		this._scene = scene;
 
 	}
 
@@ -64,6 +65,12 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 		this.emit('enterjar')
 		this._inJar = true;
 		this.stopTween();
+	}
+
+	disableFalling() {
+		this._doesNotFallDown = true;
+		//this.matter.world.remove(this);
+
 	}
 
 	stopTween() {
@@ -94,7 +101,12 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 				this._glow.setPosition(this.x, this.y)
 			}
 
-			this.setVelocity(horizontalSpeed || 0, this._fallSpeed)
+			if(!this._doesNotFallDown) {
+				this.setVelocity(horizontalSpeed || 0, this._fallSpeed)
+			} else {
+				this.setVelocity(0, 0);
+			}
+			
 			if (this.y > config.height + config.physicsSpacing / 2) {
 				this.destroyed = true
 				this.destroy()

@@ -10,8 +10,6 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 
 
 	makeMemory({ x, y, fallSpeed, radius, type = 'g'}) {
-		console.log(type)
-
 		type = type[0].toLowerCase();
 		if(['a', 'g', 'b', 't'].indexOf(type)===-1) type = 'a';
 

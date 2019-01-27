@@ -63,13 +63,6 @@ export default {
 			{
 				"type": "Alzheimer",
 				"x": 490,
-				"y": -6804,
-				"fallSpeed": 8.666666666666666,
-				"radius": 23
-			},
-			{
-				"type": "Alzheimer",
-				"x": 490,
 				"y": -6617,
 				"fallSpeed": 8.666666666666666,
 				"radius": 43
@@ -96,16 +89,9 @@ export default {
 				"radius": 50
 			},
 			{
-				"type": "bad memories",
-				"x": 430,
-				"y": -5535,
-				"fallSpeed": 8.666666666666666,
-				"radius": 23
-			},
-			{
-				"type": "bad memories",
-				"x": 495,
-				"y": -5319,
+				"type": "Alzheimer",
+				"x": 490,
+				"y": -5345,
 				"fallSpeed": 8.666666666666666,
 				"radius": 43
 			},
@@ -139,14 +125,14 @@ export default {
 			},
 			{
 				"type": "bad memories",
-				"x": 676,
-				"y": -4860,
+				"x": 670,
+				"y": -4855,
 				"fallSpeed": 8.666666666666666,
 				"radius": 43
 			},
 			{
 				"type": "bad memories",
-				"x": 750,
+				"x": 752,
 				"y": -4595,
 				"fallSpeed": 8.666666666666666,
 				"radius": 50
@@ -154,30 +140,16 @@ export default {
 			{
 				"type": "bad memories",
 				"x": 825,
-				"y": -4325,
+				"y": -4320,
 				"fallSpeed": 8.666666666666666,
 				"radius": 45
 			},
 			{
-				"type": "laser power-up",
-				"x": 490,
-				"y": -4020,
-				"fallSpeed": 8.666666666666666,
-				"radius": 50
-			},
-			{
-				"type": "shield power-up",
+				"type": "good memories",
 				"x": 490,
 				"y": -3647,
 				"fallSpeed": 8.666666666666666,
 				"radius": 23
-			},
-			{
-				"type": "good memories",
-				"x": 490,
-				"y": -3298,
-				"fallSpeed": 8.666666666666666,
-				"radius": 43
 			},
 			{
 				"type": "Alzheimer",
@@ -188,24 +160,10 @@ export default {
 			},
 			{
 				"type": "Alzheimer",
-				"x": 490,
-				"y": -2970,
-				"fallSpeed": 8.666666666666666,
-				"radius": 45
-			},
-			{
-				"type": "Alzheimer",
 				"x": 800,
 				"y": -2970,
 				"fallSpeed": 8.666666666666666,
 				"radius": 50
-			},
-			{
-				"type": "good memories",
-				"x": 490,
-				"y": -2717,
-				"fallSpeed": 8.666666666666666,
-				"radius": 23
 			},
 			{
 				"type": "good memories",
@@ -264,15 +222,29 @@ export default {
 				"radius": 50
 			},
 			{
-				"type": "speed power-up",
-				"x": 490,
-				"y": -1137,
+				"type": "bad memories",
+				"x": 250,
+				"y": -1054,
 				"fallSpeed": 8.666666666666666,
-				"radius": 45
+				"radius": 50
+			},
+			{
+				"type": "bad memories",
+				"x": 180,
+				"y": -865,
+				"fallSpeed": 8.666666666666666,
+				"radius": 50
+			},
+			{
+				"type": "bad memories",
+				"x": 115,
+				"y": -650,
+				"fallSpeed": 8.666666666666666,
+				"radius": 23
 			},
 			{
 				"type": "good memories",
-				"x": 715,
+				"x": 700,
 				"y": -1054,
 				"fallSpeed": 8.666666666666666,
 				"radius": 50
@@ -280,42 +252,14 @@ export default {
 			{
 				"type": "good memories",
 				"x": 800,
-				"y": -896,
+				"y": -865,
 				"fallSpeed": 8.666666666666666,
 				"radius": 23
 			},
 			{
 				"type": "good memories",
-				"x": 825,
-				"y": -705,
-				"fallSpeed": 8.666666666666666,
-				"radius": 43
-			},
-			{
-				"type": "bad memories",
-				"x": 280,
-				"y": -1054,
-				"fallSpeed": 8.666666666666666,
-				"radius": 50
-			},
-			{
-				"type": "bad memories",
-				"x": 200,
-				"y": -896,
-				"fallSpeed": 8.666666666666666,
-				"radius": 50
-			},
-			{
-				"type": "bad memories",
-				"x": 155,
-				"y": -705,
-				"fallSpeed": 8.666666666666666,
-				"radius": 23
-			},
-			{
-				"type": "Alzheimer",
-				"x": 490,
-				"y": -277,
+				"x": 875,
+				"y": -650,
 				"fallSpeed": 8.666666666666666,
 				"radius": 43
 			},

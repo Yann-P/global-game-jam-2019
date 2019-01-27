@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { Alzheimer } from './Memory';
 
 const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 350 0 350 320 70 320 70 0';
 const JAR_OFFSET = -30
@@ -74,8 +75,6 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 				this.memories.add(collectable)
 				this.backgroundImage.depth++;
 				markedForRemoval.push(collectable)
-				console.log(this.memories.list.length)
-
 			}
 		}
 		
@@ -97,6 +96,21 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 				new Phaser.Geom.Point(this.jarContainer.x + this.collisionSize.width / 2, this.jarContainer.y - this.collisionSize.height / 2 + JAR_OFFSET)
 			])
 		}
+	}
+
+	selectRandomNonAlzheimerCollectableInJar() {
+		let collectable = null;
+		let attempt = 0;
+		if(!this.memories.length) return null;
+		while(collectable == null || collectable instanceof Alzheimer) {
+			collectable = this.memories.getRandom();
+			if(attempt++ > 50) return null;
+		}
+		return collectable;
+	}
+
+	deleteCollectableInJar(c) {
+		this.memories.remove(c)
 	}
 	
 	_getPosition () {

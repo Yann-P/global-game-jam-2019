@@ -9,7 +9,7 @@ import ScrollingBackground from '../widgets/ScrollingBackground';
 import LevelProgressBar from '../widgets/LevelProgressBar';
 import LevelNumberBadge from '../widgets/LevelNumberBadge';
 import Projectile from '../widgets/Projectile'
-import { GoodMemory, Trauma } from '../widgets/Memory';
+import { GoodMemory, Trauma, Alzheimer } from '../widgets/Memory';
 
 const HUD_Y = 150;
 
@@ -87,16 +87,17 @@ export default class extends Phaser.Scene {
 		this.collectionJar._handsGlow();
 	}
 
-	_negativeFeedback() {
+	_negativeFeedback(color = 0xff0000) {
 		const g = this.add.graphics();
-		g.fillStyle(0xff0000);
+		g.fillStyle(color);
+		g.alpha = 1;
 		g.fillRect(0, 0, config.width, config.height);
 
 		const tween = this.tweens.add({
 			targets: [g],
 			alpha:0,
 			ease: 'Quad',
-			duration: 300,
+			duration: 500,
 			repeat: 0,
 			onComplete: function () { tween.stop(); g.destroy(); },
 		});
@@ -113,6 +114,10 @@ export default class extends Phaser.Scene {
 					this._positiveFeedback()
 				if(mem instanceof Trauma)
 					this._negativeFeedback()
+				if(mem instanceof Alzheimer) {
+					this._negativeFeedback(0x000000)
+					this._triggerAlzheimer(mem);
+				}
 			})
 		}
 	}
@@ -151,4 +156,71 @@ export default class extends Phaser.Scene {
 		
 		this.lastPointer = pointer
 	}
+
+	_triggerAlzheimer(alzh) {
+		const victim = this.collectionJar.selectRandomNonAlzheimerCollectableInJar();
+		if(!victim) return;
+		
+
+		// Move alzheimer to the victim
+		alzh.disableFalling();
+		victim.disableFalling();
+
+		victim.setPosition(config.width / 2, 1300);
+
+		const alzhPath = new Phaser.Curves.Path(alzh.x, alzh.y);
+		alzhPath.lineTo(victim.x, victim.y);
+		
+
+		const follower1 = this._mkFollower((x, y) => alzh && alzh.body && alzh.setPosition(x, y), alzhPath);
+
+		
+		this.tweens.add({
+			targets: follower1,
+			t: 1,
+			ease: 'Sine.easeInOut',
+			duration: 1000,
+			onComplete: () => {
+
+				const flyAwayPath = new Phaser.Curves.Path(alzh.x, alzh.y);
+				flyAwayPath.lineTo(config.width / 2, -200);
+
+				const follower2 = this._mkFollower((x, y) => {
+					victim && victim.body && victim.setPosition(x, y);
+					if(alzh && alzh.body) {
+						alzh.rotation = 0;
+						alzh.setPosition(x, y - 100)
+					}
+				}, flyAwayPath);
+
+				this.tweens.add({
+					targets: follower2,
+					t: 1,
+					ease: 'Sine.easeInOut',
+					duration: 2000,
+					onComplete: () => {
+						this.collectionJar.deleteCollectableInJar(victim);
+						this.collectionJar.deleteCollectableInJar(alzh);
+						alzh.destroy();
+						victim.destroy();
+					}
+				});
+
+			}
+		});
+		
+
+	}
+
+	_mkFollower(cb, path) {
+		const f = { 
+			_t: 0, 
+			get t() { return f._t; },
+			set t(v) { f._t = v; path.getPoint(f.t, f.vec);  cb(f.vec.x, f.vec.y)  }, 
+			vec: new Phaser.Math.Vector2() 
+		}
+
+		return f;
+	}
+	
 }

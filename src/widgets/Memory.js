@@ -1,5 +1,7 @@
 import { Collectable } from "./Collectable";
 import Phaser from "phaser";
+import { throws } from "assert";
+import config from "../config";
 
 
 export class Memory extends Collectable {
@@ -16,7 +18,6 @@ export class Memory extends Collectable {
 	}
 	
 	_addGlow(scene, radius) {
-		console.log('addglow called')
 		const glow = new Phaser.GameObjects.Image(scene, 0, 0, 'glow');
 		glow.setScale(this.width / glow.width, this.height/ glow.height)
 		glow.alpha = .3
@@ -24,6 +25,8 @@ export class Memory extends Collectable {
 		glow.tint = this._glowTint
 		return glow;
 	}
+
+	update(t,dt){super.update(t, dt)}
 }
 
 export class GoodMemory extends Memory {
@@ -47,5 +50,9 @@ export class BadMemory extends Memory {
 export class Alzheimer extends Memory {
 	constructor({ scene, x, y, fallSpeed, radius }) {
 		super(Object.assign(arguments[0], { key: 'alzheimer', glowTint: 0xaa0000 }));
+	}
+	update(t,dt) {
+		super.update(t, dt)
+		//this.setPosition(this.x + (this.x > config.width/2 ? -2 : 2), this.y);
 	}
 }
