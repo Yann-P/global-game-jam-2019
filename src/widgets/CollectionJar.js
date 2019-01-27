@@ -102,7 +102,7 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		let collectable = null;
 		let attempt = 0;
 		if(!this.memories.length) return null;
-		while(collectable == null || collectable instanceof Alzheimer) {
+		while(collectable == null || !(collectable.body) || collectable._busy || collectable instanceof Alzheimer) {
 			collectable = this.memories.getRandom();
 			if(attempt++ > 50) return null;
 		}

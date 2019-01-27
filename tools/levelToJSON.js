@@ -30,7 +30,7 @@ for (let i = 1; i < rawLevelData.length; i++) {
 
 for (let spawn of levelData.spawns) {
 	spawn.y = -spawn.y
-	spawn.fallSpeed /= 30
+	spawn.fallSpeed /= 35
 }
 
 fs.writeFileSync('level.json', JSON.stringify(levelData, null, '\t'))

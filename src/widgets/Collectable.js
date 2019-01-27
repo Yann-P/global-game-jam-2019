@@ -3,7 +3,7 @@ import config from '../config'
 import { timingSafeEqual } from "crypto";
 
 export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
-  constructor ({ scene, x, y, key, radius, fallSpeed }) {
+  constructor ({ scene, x, y, key, radius, fallSpeed, rotate, glowTint }) {
 		super(scene.matter.world, x, y, key, null, { 
 			restitution: 0,
 			shape: {
@@ -11,6 +11,8 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 				radius: 50
 			} 
 		})
+		this._rotate = rotate
+		this._glowTint = glowTint
 		this._inJar = false;
 		this._radius = radius;
 		this.width = this.height = radius;
@@ -26,18 +28,20 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 		this.setScale(radius / 50)
 
 		this.collisionPoint = new Phaser.Geom.Point(this.x, this.y);
+		this.collisionShapeCache = new Phaser.Geom.Circle(this.x, this.y, this._radius);
 
-		this._tween = scene.tweens.add({
-			targets: [this],
-			rotation: Math.PI * 2, 
-			duration: Math.random() * 1000 + 3000,
-			delay: Math.random() * 1000,
-			ease: 'Quad.easeInOut',
-			repeat: -1
-		});
+		if (this._rotate) {
+			this._tween = scene.tweens.add({
+				targets: [this._physicsSprite],
+				rotation: Math.PI * 2, 
+				duration: Math.random() * 1000 + 3000,
+				delay: Math.random() * 1000,
+				ease: 'Quad.easeInOut',
+				repeat: -1
+			});
+		}
 
 		this._glow = this._addGlow(scene, radius);
-		this.depth++;
 
 		this._glowTween = scene.tweens.add({
 			targets: [this._glow],
@@ -53,6 +57,7 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 
 		scene.add.existing(this._glow);
 		this._scene = scene;
+		this._busy = false;
 
 	}
 
@@ -74,7 +79,9 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 	}
 
 	stopTween() {
-		this._tween.stop();
+		if (this._rotate) {
+			this._tween.stop();
+		}
 		this._glowTween.stop();
 	}
 
@@ -86,8 +93,13 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 	}
 
 	get collision() {
-		collisionPoint.x = this.x, collisionPoint.y = this.y;
-		return collisionPoint;
+		this.collisionPoint.x = this.x, this.collisionPoint.y = this.y;
+		return this.collisionPoint;
+	}
+	
+	get collisionShape() {
+		this.collisionShapeCache.setPosition(this.x, this.y)
+		return this.collisionShapeCache;
 	}
 	
 	collect() {
@@ -111,8 +123,6 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 				this.destroyed = true
 				this.destroy()
 			}
-
-			
 		}
 	}
 }

@@ -30,6 +30,7 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 	}
 
 	_addChild(c) {
+		this.parentContainer.addAt(c._glow, 0)
 		this.add(c);
 	}
 	
@@ -41,6 +42,21 @@ export class CollectableContainer extends Phaser.GameObjects.Container {
 		}
 		
 		return minimumY
+	}
+	
+	_destroyAlzheimers (x, y) {
+		const markedForRemoval = []
+		const tapCircle = new Phaser.Geom.Circle(x, y, 75)
+		
+		for (let child of this.list) {
+			if (child._type === 'alzheimer' && Phaser.Geom.Intersects.CircleToCircle(child.collisionShape, tapCircle)) {
+				markedForRemoval.push(child)
+			}
+		}
+		
+		for (let child of markedForRemoval) {
+			this.remove(child, true)
+		}
 	}
 
 }

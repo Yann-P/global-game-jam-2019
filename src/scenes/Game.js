@@ -21,7 +21,6 @@ export default class extends Phaser.Scene {
 		this._paused = false;
 		this.lastTap = null
 		this.lastPointer = null
-		this.projectiles = []
 	}
 	
 	init (data) {
@@ -52,9 +51,6 @@ export default class extends Phaser.Scene {
 		this._progressBar._setProgress(Math.max(0, -this.collectableContainer._getMinimumY() / this.levelData.physicsOffscreenSize))
 		this.collectableContainer.update(t,dt);
 		this.collectionJar.update(t,dt)
-		for (let projectile of this.projectiles) {
-			projectile.update(t, dt)
-		}
 	}
 
 	_addLevelNumberBadge(levelNumber) {
@@ -105,8 +101,10 @@ export default class extends Phaser.Scene {
 
 
 	_setupLevel () {
+		this.collectables = new Phaser.GameObjects.Container(this, 0, 0)
+		this.add.existing(this.collectables)
 		this.collectableContainer = new CollectableContainer({ scene: this });
-		this.add.existing(this.collectableContainer);
+		this.collectables.add(this.collectableContainer);
 		for (let spawn of this.levelData.spawns) {
 			const mem = this.collectableContainer.makeMemory(spawn);
 			mem.on('enterjar', () => {
@@ -141,13 +139,7 @@ export default class extends Phaser.Scene {
 			this.lastTap = Date.now()
 		} else {
 			if (Date.now() - this.lastTap < config.maxDoubleTapDelay) {
-				const projectile = new Projectile({
-					scene: this,
-					x: this.collectionJar._getPosition(),
-					y: this.sys.canvas.height - 400
-				})
-				this.add.existing(projectile)
-				this.projectiles.push(projectile)
+				this.collectableContainer._destroyAlzheimers(pointer.x, pointer.y)
 				this.lastTap = null
 			} else {
 				this.lastTap = Date.now()
@@ -159,20 +151,21 @@ export default class extends Phaser.Scene {
 
 	_triggerAlzheimer(alzh) {
 		const victim = this.collectionJar.selectRandomNonAlzheimerCollectableInJar();
-		if(!victim) return;
+		if(!victim || !(victim.body) || victim.destroyed) return;
+		victim._busy = true;
 		
 
 		// Move alzheimer to the victim
 		alzh.disableFalling();
 		victim.disableFalling();
 
-		victim.setPosition(config.width / 2, 1300);
+		//victim.setPosition(config.width / 2, 1300);
 
 		const alzhPath = new Phaser.Curves.Path(alzh.x, alzh.y);
 		alzhPath.lineTo(victim.x, victim.y);
 		
 
-		const follower1 = this._mkFollower((x, y) => alzh && alzh.body && alzh.setPosition(x, y), alzhPath);
+		const follower1 = this._mkFollower((x, y) => alzh.setPosition(x, y), alzhPath);
 
 		
 		this.tweens.add({
@@ -186,11 +179,9 @@ export default class extends Phaser.Scene {
 				flyAwayPath.lineTo(config.width / 2, -200);
 
 				const follower2 = this._mkFollower((x, y) => {
-					victim && victim.body && victim.setPosition(x, y);
-					if(alzh && alzh.body) {
-						alzh.rotation = 0;
-						alzh.setPosition(x, y - 100)
-					}
+					victim.setPosition(x, y);
+					alzh.rotation = 0;
+					alzh.setPosition(x, y - 100)
 				}, flyAwayPath);
 
 				this.tweens.add({
