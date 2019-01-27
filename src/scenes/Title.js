@@ -1,7 +1,5 @@
 import Phaser from 'phaser'
 import config from '../config'
-import TextButton from '../widgets/TextButton'
-
 
 export default class extends Phaser.Scene {
 	constructor () {
@@ -16,19 +14,13 @@ export default class extends Phaser.Scene {
 	}
 
 	create () {
-		const button = new TextButton({
-			scene: this,
-			text: 'Start',
-			style: {
-				fontSize: 200,
-				color: '#000000'
-			},
-			x: this.sys.canvas.width / 2,
-			y: this.sys.canvas.height / 2,
-			width: 900,
-			height: 300,
-			onDown: () => this.scene.start('Game', config.level1Data)
-		})
-		this.add.existing(button);
+		const background = new Phaser.GameObjects.Image(this, this.sys.canvas.width / 2, this.sys.canvas.height / 2, 'startscreen')
+		this.add.existing(background)
+		
+		const startButton = new Phaser.GameObjects.Zone(this, 540, 1570, 300, 300)
+		startButton.setOrigin(0.5, 0.5)
+		startButton.setInteractive()
+		startButton.on('pointerdown', () => this.scene.start('Game', config.level1Data))
+		this.add.existing(startButton)
 	}
 }
