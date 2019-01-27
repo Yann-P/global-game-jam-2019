@@ -10,12 +10,19 @@ const mutations = {
 		} else {
 			state.badMemories += memory.value
 		}
+	},
+	reset (state) {
+		state.goodMemories = 0
+		state.badMemories = 0
 	}
 }
 
 const actions = {
 	collected ({ commit }, memory) {
 		commit('collected', memory)
+	},
+	reset ({ commit }) {
+		commit('reset')
 	}
 }
 
