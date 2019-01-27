@@ -20,7 +20,7 @@ export default class extends Phaser.Scene {
 		const startButton = new Phaser.GameObjects.Zone(this, 540, 1570, 300, 300)
 		startButton.setOrigin(0.5, 0.5)
 		startButton.setInteractive()
-		startButton.on('pointerdown', () => this.scene.start('EndLevel', config.level1Data))
+		startButton.on('pointerdown', () => this.scene.start('Game', config.level1Data))
 		this.add.existing(startButton)
 	}
 }
