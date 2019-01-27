@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { Alzheimer } from './Memory';
+import store from '../store'
 
 const JAR_GEOMETRY = '0 0 0 450 380 450 380 0 350 0 350 320 70 320 70 0';
 const JAR_OFFSET = -30
@@ -80,6 +81,18 @@ export default class CollectionJar extends Phaser.GameObjects.Container {
 		
 		for (let gameObject of markedForRemoval) {
 			this.collectableContainer.remove(gameObject)
+			
+			if (gameObject._type === 'mem-good') {
+				store.dispatch('player/collected', {
+					good: true,
+					value: Math.ceil(gameObject._radius / 10)
+				})
+			} else if (gameObject._type === 'mem-bad') {
+				store.dispatch('player/collected', {
+					good: false,
+					value: Math.ceil(gameObject._radius / 10)
+				})
+			}
 		}
 		
 		for (let gameObject of this.memories.list) {

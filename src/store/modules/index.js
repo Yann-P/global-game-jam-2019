@@ -1,5 +1,5 @@
-import ressources from './ressources'
+import player from './player'
 
 export default {
-	ressources
+	player
 }
