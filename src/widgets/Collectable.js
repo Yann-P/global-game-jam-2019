@@ -37,8 +37,18 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 			repeat: -1
 		});
 
+		if (rotate) {
+			this._tween = scene.tweens.add({
+				targets: [this._physicsSprite],
+				rotation: Math.PI * 2, 
+				duration: Math.random() * 1000 + 3000,
+				delay: Math.random() * 1000,
+				ease: 'Quad.easeInOut',
+				repeat: -1
+			});
+		}
+
 		this._glow = this._addGlow(scene, radius);
-		this.depth++;
 
 		this._glowTween = scene.tweens.add({
 			targets: [this._glow],
@@ -68,7 +78,9 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 	}
 
 	stopTween() {
-		this._tween.stop();
+		if (rotate) {
+			this._tween.stop();
+		}
 		this._glowTween.stop();
 	}
 
@@ -105,8 +117,6 @@ export class Collectable extends Phaser.Physics.Matter.Sprite { // ABSTRACT
 				this.destroyed = true
 				this.destroy()
 			}
-
-			
 		}
 	}
 }
