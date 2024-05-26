@@ -13,7 +13,7 @@
 - Sandra Süsser - Idea, Art, UI, Game Design
 - Christian Dittrich - Programming, Game Design, boilerplate improvements
 - Yann Pellegrini - Programming, Game Design
-- Simon Häntsch - Game Design / Mechanic / Level Design
+- SH - Game Design / Mechanic / Level Design
 - Felix Biedermann - Programming, Game Design
 - Contributors to the [phaser es6 boilerplate](https://github.com/lean/phaser-es6-webpack)
 
